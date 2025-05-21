@@ -7,13 +7,13 @@ const Card = ({ title, value, icon, color = 'primary' }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow border-l-4 border-amber-500 flex items-center">
-      <div className={`w-12 h-12 rounded-full ${colorClasses[color]} flex items-center justify-center mr-4`}>
-        <i className={`${icon} text-xl`}></i>
+    <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 hover:shadow-lg transition-shadow border-l-4 border-amber-500 flex items-center">
+      <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full ${colorClasses[color]} flex items-center justify-center mr-3 sm:mr-4 flex-shrink-0`}>
+        <i className={`${icon} text-base sm:text-xl`}></i>
       </div>
-      <div>
-        <h3 className="text-gray-500 text-sm">{title}</h3>
-        <p className="text-2xl font-semibold">{value}</p>
+      <div className="overflow-hidden">
+        <h3 className="text-gray-500 text-xs sm:text-sm truncate">{title}</h3>
+        <p className="text-lg sm:text-2xl font-semibold truncate">{value}</p>
       </div>
     </div>
   );

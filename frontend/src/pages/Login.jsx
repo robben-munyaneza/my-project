@@ -48,17 +48,17 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8 border border-amber-100">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-amber-500">Smart Park</h1>
-          <p className="text-gray-600">Car Wash Management System</p>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 py-6 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full bg-white rounded-lg shadow-md p-6 sm:p-8 border border-amber-100">
+        <div className="text-center mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-amber-500">Smart Park</h1>
+          <p className="text-sm text-gray-600">Car Wash Management System</p>
         </div>
 
-        <h2 className="text-2xl font-bold text-amber-600 mb-6 text-center">Login</h2>
+        <h2 className="text-xl sm:text-2xl font-bold text-amber-600 mb-4 sm:mb-6 text-center">Login</h2>
 
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <div className="bg-red-100 border border-red-400 text-red-700 px-3 py-2 sm:px-4 sm:py-3 rounded mb-4 text-sm">
             {error}
           </div>
         )}
@@ -96,15 +96,15 @@ const Login = ({ onLogin }) => {
 
           <button
             type="submit"
-            className="w-full bg-amber-500 text-white py-3 px-4 rounded-md font-medium hover:bg-amber-600 transition-colors shadow-md mt-6"
+            className="w-full bg-amber-500 text-white py-2 sm:py-3 px-4 rounded-md font-medium hover:bg-amber-600 transition-colors shadow-md mt-4 sm:mt-6"
             disabled={loading}
           >
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
 
-        <div className="mt-6 text-center">
-          <p className="text-gray-600">
+        <div className="mt-4 sm:mt-6 text-center">
+          <p className="text-sm text-gray-600">
             Don't have an account?{' '}
             <Link to="/signup" className="text-amber-500 hover:underline">
               Sign up

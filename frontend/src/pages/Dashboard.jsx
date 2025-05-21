@@ -13,54 +13,54 @@ const Dashboard = ({ onLogout }) => {
   const [recentServices, setRecentServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  
+
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
         setLoading(true);
-        
+
         // Fetch cars count
         const cars = await carService.getAll();
-        
+
         // Fetch recent services
         const services = await servicePackageService.getAll();
-        
+
         // Fetch payments
         const payments = await paymentService.getAll();
-        
+
         // Calculate stats
         const currentDate = new Date();
         const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-        
+
         // Services this week
         const oneWeekAgo = new Date();
         oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-        const servicesThisWeek = services.filter(service => 
+        const servicesThisWeek = services.filter(service =>
           new Date(service.ServiceDate) >= oneWeekAgo
         );
-        
+
         // Payments this month
-        const paymentsThisMonth = payments.filter(payment => 
+        const paymentsThisMonth = payments.filter(payment =>
           new Date(payment.PaymentDate) >= firstDayOfMonth
         );
-        
+
         const totalMonthlyPayments = paymentsThisMonth.reduce(
-          (sum, payment) => sum + Number(payment.AmountPaid), 
+          (sum, payment) => sum + Number(payment.AmountPaid),
           0
         );
-        
+
         // Set stats
         setStats({
           totalCars: cars.length,
           recentServices: servicesThisWeek.length,
           monthlyPayments: totalMonthlyPayments.toFixed(2)
         });
-        
+
         // Set recent services (last 5)
-        const sortedServices = [...services].sort((a, b) => 
+        const sortedServices = [...services].sort((a, b) =>
           new Date(b.ServiceDate) - new Date(a.ServiceDate)
         ).slice(0, 5);
-        
+
         setRecentServices(sortedServices);
         setLoading(false);
       } catch (err) {
@@ -69,31 +69,33 @@ const Dashboard = ({ onLogout }) => {
         setLoading(false);
       }
     };
-    
+
     fetchDashboardData();
   }, []);
-  
+
   // Table columns for recent services
   const serviceColumns = [
     { key: 'RecordNumber', label: 'Record #' },
-    { 
-      key: 'ServiceDate', 
+    {
+      key: 'ServiceDate',
       label: 'Date',
       render: (row) => new Date(row.ServiceDate).toLocaleDateString()
     },
     { key: 'PlateNumber', label: 'Plate Number' },
-    { 
-      key: 'Package', 
+    {
+      key: 'Package',
       label: 'Package',
       render: (row) => row.Package?.PackageName || 'N/A'
+
     },
-    { 
-      key: 'Price', 
+
+    {
+      key: 'Price',
       label: 'Price',
       render: (row) => `$${row.Package?.PackagePrice || 0}`
     }
   ];
-  
+
   return (
     <Layout title="Dashboard" onLogout={onLogout}>
       {loading ? (
@@ -107,33 +109,33 @@ const Dashboard = ({ onLogout }) => {
       ) : (
         <>
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <Card 
-              title="Total Cars" 
-              value={stats.totalCars} 
-              icon="fas fa-car" 
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
+            <Card
+              title="Total Cars"
+              value={stats.totalCars}
+              icon="fas fa-car"
               color="primary"
             />
-            <Card 
-              title="Services This Week" 
-              value={stats.recentServices} 
-              icon="fas fa-box-open" 
+            <Card
+              title="Services This Week"
+              value={stats.recentServices}
+              icon="fas fa-box-open"
               color="blue"
             />
-            <Card 
-              title="Payments This Month" 
-              value={`$${stats.monthlyPayments}`} 
-              icon="fas fa-money-bill-wave" 
+            <Card
+              title="Payments This Month"
+              value={`RWF ${stats.monthlyPayments}`}
+              icon="fas fa-money-bill-wave"
               color="green"
             />
           </div>
-          
+
           {/* Recent Services */}
-          <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-            <h2 className="text-xl font-semibold mb-4">Recent Services</h2>
-            <Table 
-              columns={serviceColumns} 
-              data={recentServices} 
+          <div className="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-6 sm:mb-8">
+            <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">Recent Services</h2>
+            <Table
+              columns={serviceColumns}
+              data={recentServices}
               actions={false}
             />
           </div>
