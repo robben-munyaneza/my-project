@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
 import Table from '../components/Table';
 import { reportService, carService } from '../services/api';
-import { jsPDF } from 'jspdf';
-import 'jspdf-autotable';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 const Reports = ({ onLogout }) => {
   const [cars, setCars] = useState([]);
@@ -94,21 +94,17 @@ const Reports = ({ onLogout }) => {
     }
 
     try {
-      // Create a new PDF document with A4 size
-      const doc = new jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: 'a4'
-      });
+      // Create a new PDF document
+      const doc = new jsPDF();
 
       // Add title and header
       doc.setFontSize(18);
       doc.setTextColor(205, 127, 50); // Amber color
-      doc.text('Smart Park Car Wash', doc.internal.pageSize.width / 2, 15, { align: 'center' });
+      doc.text('Smart Park Car Wash', 105, 15, null, null, 'center');
 
       doc.setFontSize(14);
       doc.setTextColor(0, 0, 0);
-      doc.text('Payment Report', doc.internal.pageSize.width / 2, 25, { align: 'center' });
+      doc.text('Payment Report', 105, 25, null, null, 'center');
 
       // Add report details
       doc.setFontSize(10);
@@ -139,8 +135,8 @@ const Reports = ({ onLogout }) => {
         tableRows.push(['No payment data available', '', '', '']);
       }
 
-      // Add table to document
-      doc.autoTable({
+      // Add table to document using the imported autoTable function
+      autoTable(doc, {
         head: [tableColumn],
         body: tableRows,
         startY: 55,
@@ -150,11 +146,7 @@ const Reports = ({ onLogout }) => {
       });
 
       // Get the final Y position after the table
-      let finalY = 150; // Default if table doesn't exist
-
-      if (doc.lastAutoTable) {
-        finalY = doc.lastAutoTable.finalY;
-      }
+      const finalY = doc.previousAutoTable ? doc.previousAutoTable.finalY : 150;
 
       // Add signature section
       doc.text('Signature:', 14, finalY + 20);
@@ -184,21 +176,17 @@ const Reports = ({ onLogout }) => {
     }
 
     try {
-      // Create a new PDF document with A4 size
-      const doc = new jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: 'a4'
-      });
+      // Create a new PDF document
+      const doc = new jsPDF();
 
       // Add title and header
       doc.setFontSize(18);
       doc.setTextColor(205, 127, 50); // Amber color
-      doc.text('Smart Park Car Wash', doc.internal.pageSize.width / 2, 15, { align: 'center' });
+      doc.text('Smart Park Car Wash', 105, 15, null, null, 'center');
 
       doc.setFontSize(14);
       doc.setTextColor(0, 0, 0);
-      doc.text('Service Report', doc.internal.pageSize.width / 2, 25, { align: 'center' });
+      doc.text('Service Report', 105, 25, null, null, 'center');
 
       // Add report details
       doc.setFontSize(10);
@@ -228,8 +216,8 @@ const Reports = ({ onLogout }) => {
         tableRows.push(['No service data available', '', '', '', '']);
       }
 
-      // Add table to document
-      doc.autoTable({
+      // Add table to document using the imported autoTable function
+      autoTable(doc, {
         head: [tableColumn],
         body: tableRows,
         startY: 60,
@@ -239,11 +227,7 @@ const Reports = ({ onLogout }) => {
       });
 
       // Get the final Y position after the table
-      let finalY = 150; // Default if table doesn't exist
-
-      if (doc.lastAutoTable) {
-        finalY = doc.lastAutoTable.finalY;
-      }
+      const finalY = doc.previousAutoTable ? doc.previousAutoTable.finalY : 150;
 
       // Add signature section
       doc.text('Signature:', 14, finalY + 20);

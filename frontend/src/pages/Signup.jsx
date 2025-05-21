@@ -42,8 +42,8 @@ const Signup = () => {
     // Validate Password
     if (!formData.Password) {
       newErrors.Password = 'Password is required';
-    } else if (formData.Password.length < 8) {
-      newErrors.Password = 'Password must be at least 8 characters long';
+    } else if (formData.Password.length < 3) {
+      newErrors.Password = 'Password must be at least 3 characters long';
     }
 
     setErrors(newErrors);
